@@ -1,191 +1,650 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LumiqBrain — AI & Telecom Intelligence</title>
-  <meta name="description" content="LumiqBrain builds intelligent AI systems for telecom and beyond. Explore LLMOS and ASK3GPP projects." />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LumiqBrain — AI & Telecom Intelligence</title>
+<meta name="description" content="LumiqBrain builds open-source AI systems for telecom and beyond. Explore LLMOS and ASK3GPP — natural-language OS interfaces and standards-grounded Q&A." />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Space Grotesk', 'sans-serif']
+      },
+      colors: {
+        night: '#05060f',
+        panel: '#0b0d1d',
+        neon: '#7c6cff',
+        cyanx: '#22d3ee',
+        magentax: '#e879f9'
+      }
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body { background: #05060f; color: #e6e8f5; overflow-x: hidden; }
+
+  ::selection { background: rgba(124,108,255,.4); }
+
+  /* ---------- Glow orbs ---------- */
+  .orb {
+    position: absolute; border-radius: 9999px; filter: blur(90px); opacity: .5;
+    pointer-events: none; will-change: transform;
+    animation: drift 14s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    0% { transform: translate(0,0) scale(1); }
+    100% { transform: translate(40px,-30px) scale(1.15); }
+  }
+
+  /* ---------- Grid background ---------- */
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(124,108,255,.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,108,255,.07) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+  }
+
+  /* ---------- Gradient text ---------- */
+  .grad-text {
+    background: linear-gradient(100deg, #a5b4fc, #7c6cff 35%, #22d3ee 70%, #e879f9);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    background-size: 200% auto;
+    animation: shimmer 6s linear infinite;
+  }
+  @keyframes shimmer { to { background-position: 200% center; } }
+
+  /* ---------- Glowing button ---------- */
+  .btn-glow {
+    position: relative;
+    background: linear-gradient(100deg, #7c6cff, #22d3ee);
+    transition: transform .25s ease, box-shadow .25s ease;
+    box-shadow: 0 0 24px rgba(124,108,255,.45), 0 0 60px rgba(34,211,238,.15);
+  }
+  .btn-glow:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 0 36px rgba(124,108,255,.7), 0 0 90px rgba(34,211,238,.3); }
+
+  /* ---------- Glass card ---------- */
+  .glass {
+    background: linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+    border: 1px solid rgba(255,255,255,.08);
+    backdrop-filter: blur(12px);
+  }
+  .card-hover { transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
+  .card-hover:hover {
+    transform: translateY(-6px);
+    border-color: rgba(124,108,255,.5);
+    box-shadow: 0 20px 50px -15px rgba(124,108,255,.35);
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+  .reveal-delay-3 { transition-delay: .3s; }
+
+  /* ---------- Hero orb / brain ---------- */
+  .hero-core {
+    animation: pulse-core 4s ease-in-out infinite;
+  }
+  @keyframes pulse-core {
+    0%, 100% { box-shadow: 0 0 60px 10px rgba(124,108,255,.5), 0 0 140px 40px rgba(34,211,238,.15), inset 0 0 60px rgba(232,121,249,.3); }
+    50% { box-shadow: 0 0 90px 25px rgba(124,108,255,.7), 0 0 180px 60px rgba(34,211,238,.25), inset 0 0 80px rgba(232,121,249,.45); }
+  }
+  .ring-orbit { position: absolute; inset: 0; border-radius: 9999px; border: 1px solid rgba(124,108,255,.35); animation: spin-ring 12s linear infinite; }
+  .ring-orbit-2 { animation-duration: 18s; animation-direction: reverse; border-color: rgba(34,211,238,.3); transform: scale(1.18) rotateX(60deg); }
+  @keyframes spin-ring { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .float-chip { animation: floaty 5s ease-in-out infinite; }
+  .float-chip:nth-child(2) { animation-delay: 1.2s; }
+  .float-chip:nth-child(3) { animation-delay: 2.4s; }
+  @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+  /* ---------- Marquee ---------- */
+  .marquee-track { display: flex; gap: 4rem; animation: marquee 28s linear infinite; width: max-content; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ---------- FAQ ---------- */
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height .45s cubic-bezier(.16,1,.3,1), padding .45s ease; }
+  .faq-item.open .faq-answer { max-height: 260px; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); color: #7c6cff; }
+  .faq-icon { transition: transform .35s ease, color .35s ease; }
+
+  /* ---------- Pricing popular glow ---------- */
+  .popular-glow { position: relative; }
+  .popular-glow::before {
+    content: ''; position: absolute; inset: -1px; border-radius: 1.5rem; padding: 1px;
+    background: linear-gradient(140deg, #7c6cff, #22d3ee, #e879f9, #7c6cff);
+    background-size: 300% 300%;
+    animation: border-flow 5s linear infinite;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none;
+  }
+  @keyframes border-flow { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
+
+  /* ---------- Nav blur ---------- */
+  .nav-scrolled { background: rgba(5,6,15,.75); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,.06); }
+
+  /* ---------- Toggle ---------- */
+  .toggle-dot { transition: transform .3s cubic-bezier(.16,1,.3,1); }
+
+  canvas#particles { position: absolute; inset: 0; width: 100%; height: 100%; }
+</style>
 </head>
-<body>
+<body class="font-sans antialiased">
 
-  <!-- NAV -->
-  <nav class="nav">
-    <div class="nav-inner container">
-      <a href="#" class="logo">Lumiq<span>Brain</span></a>
-      <ul class="nav-links">
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <a href="#projects" class="btn btn-sm">View Projects</a>
+<!-- ================= NAV ================= -->
+<nav id="nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 h-16 md:h-[72px] flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2.5 group">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-neon to-cyanx flex items-center justify-center shadow-[0_0_20px_rgba(124,108,255,.5)] group-hover:shadow-[0_0_30px_rgba(124,108,255,.8)] transition-shadow">
+        <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <span class="font-display font-700 text-lg tracking-tight">Lumiq<span class="text-neon">Brain</span>.ai</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm text-slate-300">
+      <a href="#features" class="hover:text-white transition-colors">Features</a>
+      <a href="#projects" class="hover:text-white transition-colors">Projects</a>
+      <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
+      <a href="#roadmap" class="hover:text-white transition-colors">Roadmap</a>
+      <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
     </div>
-  </nav>
+    <div class="flex items-center gap-3">
+      <a href="https://github.com/diliprtandekar" target="_blank" rel="noopener" class="hidden sm:block text-sm text-slate-300 hover:text-white transition-colors">GitHub</a>
+      <a href="#projects" class="btn-glow text-sm font-semibold text-white px-5 py-2.5 rounded-full">View projects</a>
+      <button id="menuBtn" class="md:hidden w-10 h-10 flex items-center justify-center rounded-lg glass">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="mobileMenu" class="md:hidden hidden px-5 pb-5 pt-2 nav-scrolled">
+    <div class="flex flex-col gap-4 text-sm text-slate-300">
+      <a href="#features" class="hover:text-white">Features</a>
+      <a href="#projects" class="hover:text-white">Projects</a>
+      <a href="#pricing" class="hover:text-white">Pricing</a>
+      <a href="#roadmap" class="hover:text-white">Roadmap</a>
+      <a href="#faq" class="hover:text-white">FAQ</a>
+    </div>
+  </div>
+</nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="container hero-content">
-      <div class="badge">AI · Telecom · Open Source</div>
-      <h1>Intelligent Systems<br />for the <span class="gradient-text">Connected World</span></h1>
-      <p class="hero-sub">Building AI-powered tools that bridge large language models with real-world telecom standards and infrastructure.</p>
-      <div class="hero-actions">
-        <a href="#projects" class="btn btn-primary">Explore Projects</a>
-        <a href="https://github.com/diliprtandekar" target="_blank" rel="noopener" class="btn btn-ghost">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+<!-- ================= HERO ================= -->
+<header class="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
+  <div class="absolute inset-0 grid-bg"></div>
+  <canvas id="particles"></canvas>
+  <div class="orb w-[500px] h-[500px] bg-neon -top-40 -left-40"></div>
+  <div class="orb w-[400px] h-[400px] bg-cyanx top-1/3 -right-32" style="animation-delay:-6s"></div>
+  <div class="orb w-[350px] h-[350px] bg-magentax bottom-0 left-1/3 opacity-30" style="animation-delay:-3s"></div>
+
+  <div class="relative max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-14 items-center w-full">
+    <div>
+      <div class="reveal inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-xs sm:text-sm text-slate-300 mb-6">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyanx opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-cyanx"></span>
+        </span>
+        AI · Telecom · Open Source
+      </div>
+      <h1 class="reveal reveal-delay-1 font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight">
+        Intelligent systems for the <span class="grad-text">connected world</span>
+      </h1>
+      <p class="reveal reveal-delay-2 mt-6 text-slate-400 text-base sm:text-lg max-w-xl leading-relaxed">
+        LumiqBrain builds open-source AI tools that bridge large language models with real-world telecom standards and infrastructure — from natural-language operating systems to standards-grounded Q&A engines.
+      </p>
+      <div class="reveal reveal-delay-3 mt-9 flex flex-col sm:flex-row gap-4">
+        <a href="#projects" class="btn-glow inline-flex items-center justify-center gap-2 text-white font-semibold px-8 py-4 rounded-full">
+          Explore projects
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5-5 5M6 12h12"/></svg>
+        </a>
+        <a href="https://github.com/diliprtandekar" target="_blank" rel="noopener" class="glass inline-flex items-center justify-center gap-2 font-semibold px-8 py-4 rounded-full text-slate-200 hover:border-neon/50 transition-colors">
+          <svg class="w-4 h-4 text-neon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
           GitHub
         </a>
       </div>
-      <div class="hero-stats">
-        <div class="stat"><span>2</span><label>Open Source Projects</label></div>
-        <div class="stat"><span>AI</span><label>Powered</label></div>
-        <div class="stat"><span>3GPP</span><label>Standards</label></div>
+      <div class="reveal reveal-delay-3 mt-12 flex flex-wrap gap-x-10 gap-y-6">
+        <div><div class="font-display text-2xl sm:text-3xl font-bold text-white"><span class="counter" data-target="2">0</span>+</div><div class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Open source projects</div></div>
+        <div><div class="font-display text-2xl sm:text-3xl font-bold text-white"><span class="counter" data-target="100">0</span>%</div><div class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Open source & free</div></div>
+        <div><div class="font-display text-2xl sm:text-3xl font-bold text-white">3GPP</div><div class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Standards grounded</div></div>
       </div>
     </div>
-    <div class="hero-scroll">
-      <span></span>
-    </div>
-  </section>
 
-  <!-- PROJECTS -->
-  <section id="projects" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div class="badge">Open Source</div>
-        <h2>Featured Projects</h2>
-        <p>AI tools built for real-world telecom and infrastructure challenges.</p>
-      </div>
-
-      <div class="projects-grid">
-
-        <!-- LLMOS -->
-        <div class="project-card featured">
-          <div class="card-top">
-            <div class="project-icon llmos-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-            </div>
-            <div class="project-meta">
-              <span class="tag">LLM · OS · AI Agent</span>
-              <span class="tag tag-green">Active</span>
-            </div>
-          </div>
-          <h3>LLMOS</h3>
-          <p>An AI-native operating system layer powered by large language models. LLMOS reimagines how humans interact with systems — using natural language as the primary interface for OS-level operations, automation, and intelligence.</p>
-          <ul class="feature-list">
-            <li>Natural language OS interactions</li>
-            <li>LLM-driven task automation</li>
-            <li>Extensible agent framework</li>
-          </ul>
-          <div class="card-actions">
-            <a href="https://github.com/diliprtandekar/LLMOS" target="_blank" rel="noopener" class="btn btn-primary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-              View on GitHub
-            </a>
-            <a href="https://github.com/diliprtandekar/LLMOS" target="_blank" rel="noopener" class="btn btn-outline">Star ★</a>
-          </div>
+    <!-- Hero visual -->
+    <div class="reveal reveal-delay-2 relative hidden sm:flex items-center justify-center py-8">
+      <div class="relative w-72 h-72 lg:w-96 lg:h-96">
+        <div class="ring-orbit"></div>
+        <div class="ring-orbit ring-orbit-2"></div>
+        <div class="hero-core absolute inset-8 rounded-full bg-gradient-to-br from-neon/40 via-panel to-cyanx/30 border border-white/10 flex items-center justify-center">
+          <svg class="w-24 h-24 lg:w-32 lg:h-32 text-white/90 drop-shadow-[0_0_18px_rgba(124,108,255,.9)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.5 3a3 3 0 00-3 3v.5A3.5 3.5 0 004 10a3.5 3.5 0 001 6.5V17a3 3 0 003 3c.9 0 1.7-.4 2.2-1H12V4.8A3 3 0 009.5 3zM14.5 3a3 3 0 013 3v.5A3.5 3.5 0 0120 10a3.5 3.5 0 01-1 6.5V17a3 3 0 01-3 3c-.9 0-1.7-.4-2.2-1H12V4.8A3 3 0 0114.5 3z"/>
+          </svg>
         </div>
-
-        <!-- ASK3GPP -->
-        <div class="project-card featured">
-          <div class="card-top">
-            <div class="project-icon ask3gpp-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            </div>
-            <div class="project-meta">
-              <span class="tag">Telecom · RAG · 3GPP</span>
-              <span class="tag tag-blue">Live</span>
-            </div>
-          </div>
-          <h3>ASK3GPP</h3>
-          <p>An AI-powered Q&A engine for 3GPP telecom standards. Ask natural language questions and get precise, spec-grounded answers from the vast 3GPP documentation corpus — no more manual spec hunting.</p>
-          <ul class="feature-list">
-            <li>RAG over 3GPP specifications</li>
-            <li>Natural language telecom Q&A</li>
-            <li>Standards-grounded responses</li>
-          </ul>
-          <div class="card-actions">
-            <a href="https://ask3gpp.com" target="_blank" rel="noopener" class="btn btn-primary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              Visit ASK3GPP.COM
-            </a>
-            <a href="https://github.com/diliprtandekar/ASK3GPP" target="_blank" rel="noopener" class="btn btn-outline">GitHub</a>
-          </div>
+        <!-- floating chips -->
+        <div class="float-chip absolute -left-10 top-8 glass rounded-xl px-4 py-2.5 text-xs font-medium flex items-center gap-2 shadow-lg">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span> LLMOS agent framework
         </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="section section-dark">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-text">
-          <div class="badge">About</div>
-          <h2>Building at the intersection of AI & Telecom</h2>
-          <p>LumiqBrain is focused on creating open-source AI tools that solve real problems in telecom, infrastructure, and intelligent systems. From LLM-powered OS interfaces to standards-aware Q&A engines, every project is built to be practical and impactful.</p>
-          <div class="tech-stack">
-            <span>Python</span><span>LLMs</span><span>RAG</span><span>3GPP</span><span>FastAPI</span><span>React</span><span>AWS</span>
-          </div>
+        <div class="float-chip absolute -right-8 top-1/3 glass rounded-xl px-4 py-2.5 text-xs font-medium flex items-center gap-2 shadow-lg">
+          <span class="text-cyanx">⚡</span> RAG over 3GPP specs
         </div>
-        <div class="about-cards">
-          <div class="mini-card">
-            <div class="mini-icon">🧠</div>
-            <h4>AI-First</h4>
-            <p>Every tool is designed with AI at its core, not as an afterthought.</p>
-          </div>
-          <div class="mini-card">
-            <div class="mini-icon">📡</div>
-            <h4>Telecom Native</h4>
-            <p>Deep expertise in 3GPP standards, 5G, and network intelligence.</p>
-          </div>
-          <div class="mini-card">
-            <div class="mini-icon">🔓</div>
-            <h4>Open Source</h4>
-            <p>All projects are open source and built for the community.</p>
-          </div>
-          <div class="mini-card">
-            <div class="mini-icon">⚡</div>
-            <h4>Production Ready</h4>
-            <p>Built to scale from prototype to production deployment.</p>
-          </div>
+        <div class="float-chip absolute -bottom-4 left-1/4 glass rounded-xl px-4 py-2.5 text-xs font-medium flex items-center gap-2 shadow-lg">
+          <span class="text-magentax">★</span> MIT licensed
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</header>
 
-  <!-- CONTACT / CTA -->
-  <section id="contact" class="section">
-    <div class="container">
-      <div class="cta-box">
-        <div class="badge">Get in Touch</div>
-        <h2>Interested in collaborating?</h2>
-        <p>Whether you want to contribute, use these tools, or just talk AI & telecom — reach out.</p>
-        <div class="cta-actions">
-          <a href="https://github.com/diliprtandekar" target="_blank" rel="noopener" class="btn btn-primary">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-            GitHub Profile
-          </a>
-          <a href="mailto:support@lumiqbrain.ai" class="btn btn-outline">support@lumiqbrain.ai</a>
+<!-- ================= LOGO MARQUEE ================= -->
+<section class="py-10 border-y border-white/5 overflow-hidden bg-panel/40">
+  <p class="text-center text-xs uppercase tracking-[0.25em] text-slate-500 mb-6">Built with</p>
+  <div class="marquee-track text-slate-500 font-display font-semibold text-xl">
+    <span>Python</span><span>LLMs</span><span>RAG</span><span>3GPP</span><span>FastAPI</span><span>React</span><span>AWS</span>
+    <span>Python</span><span>LLMs</span><span>RAG</span><span>3GPP</span><span>FastAPI</span><span>React</span><span>AWS</span>
+  </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section id="features" class="relative py-24 sm:py-32">
+  <div class="orb w-[420px] h-[420px] bg-neon/70 top-20 -right-56 opacity-30"></div>
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-2xl mx-auto text-center mb-16">
+      <span class="reveal inline-block text-xs font-semibold uppercase tracking-[0.25em] text-cyanx mb-4">Capabilities</span>
+      <h2 class="reveal reveal-delay-1 font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">One brain. <span class="grad-text">Infinite possibilities.</span></h2>
+      <p class="reveal reveal-delay-2 mt-5 text-slate-400">Open-source AI systems built for real-world telecom and infrastructure — from natural-language interfaces to standards-grounded intelligence.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- feature cards -->
+      <div class="reveal glass card-hover rounded-2xl p-7">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-neon/30 to-neon/10 border border-neon/30 flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-neon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        </div>
+        <h3 class="font-display font-semibold text-lg mb-2">Natural Language OS</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">LLMOS reimagines how humans interact with systems — using natural language as the primary interface for OS-level operations, automation, and intelligence.</p>
+      </div>
+      <div class="reveal reveal-delay-1 glass card-hover rounded-2xl p-7">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyanx/30 to-cyanx/10 border border-cyanx/30 flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-cyanx" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <h3 class="font-display font-semibold text-lg mb-2">Standards-Grounded RAG</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">ASK3GPP answers natural-language questions with precise, spec-grounded responses pulled from the 3GPP documentation corpus — no manual spec hunting.</p>
+      </div>
+      <div class="reveal reveal-delay-2 glass card-hover rounded-2xl p-7">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-magentax/30 to-magentax/10 border border-magentax/30 flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-magentax" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <h3 class="font-display font-semibold text-lg mb-2">Extensible Agent Framework</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">LLM-driven task automation with an extensible agent framework, built to plug new tools and workflows into LLMOS as it grows.</p>
+      </div>
+      <div class="reveal glass card-hover rounded-2xl p-7">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400/30 to-emerald-400/10 border border-emerald-400/30 flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5v14"/><circle cx="12" cy="12" r="9"/></svg>
+        </div>
+        <h3 class="font-display font-semibold text-lg mb-2">Telecom Native</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">Deep expertise in 3GPP standards, 5G, and network intelligence — baked into every project, not bolted on.</p>
+      </div>
+      <div class="reveal reveal-delay-1 glass card-hover rounded-2xl p-7">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400/30 to-amber-400/10 border border-amber-400/30 flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M11 3.055A9 9 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
+        </div>
+        <h3 class="font-display font-semibold text-lg mb-2">Open Source</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">Every project ships open source and available on GitHub — fork it, file issues, or send a pull request.</p>
+      </div>
+      <div class="reveal reveal-delay-2 glass card-hover rounded-2xl p-7">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-400/30 to-sky-400/10 border border-sky-400/30 flex items-center justify-center mb-5">
+          <svg class="w-6 h-6 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+        </div>
+        <h3 class="font-display font-semibold text-lg mb-2">Production Ready</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">Built with Python, FastAPI, React, and AWS to scale from prototype to real deployments.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects" class="relative py-24 sm:py-32 bg-panel/40 border-y border-white/5 overflow-hidden">
+  <div class="orb w-[400px] h-[400px] bg-cyanx/70 bottom-0 -left-52 opacity-25"></div>
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-2xl mx-auto text-center mb-16">
+      <span class="reveal inline-block text-xs font-semibold uppercase tracking-[0.25em] text-magentax mb-4">Open Source</span>
+      <h2 class="reveal reveal-delay-1 font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">Featured <span class="grad-text">open source projects</span></h2>
+      <p class="reveal reveal-delay-2 mt-5 text-slate-400">AI tools built for real-world telecom and infrastructure challenges.</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6 lg:gap-10">
+      <!-- LLMOS -->
+      <div class="reveal glass card-hover rounded-2xl p-8 flex flex-col">
+        <div class="flex items-center justify-between mb-5">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-neon/30 to-neon/10 border border-neon/30 flex items-center justify-center">
+            <svg class="w-6 h-6 text-neon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <span class="text-[11px] font-bold uppercase tracking-wider bg-emerald-400/15 text-emerald-400 border border-emerald-400/30 px-3 py-1 rounded-full">Active</span>
+        </div>
+        <h3 class="font-display font-semibold text-xl mb-2">LLMOS</h3>
+        <p class="text-sm text-slate-400 leading-relaxed flex-1">An AI-native operating system layer powered by large language models. LLMOS reimagines how humans interact with systems — using natural language as the primary interface for OS-level operations, automation, and intelligence.</p>
+        <ul class="mt-5 space-y-2.5 text-sm text-slate-300">
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-neon shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Natural language OS interactions</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-neon shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>LLM-driven task automation</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-neon shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Extensible agent framework</li>
+        </ul>
+        <div class="mt-7 flex gap-3">
+          <a href="https://github.com/diliprtandekar/LLMOS" target="_blank" rel="noopener" class="btn-glow flex-1 inline-flex items-center justify-center gap-2 text-white text-sm font-semibold px-5 py-3 rounded-full">View on GitHub</a>
+          <a href="https://github.com/diliprtandekar/LLMOS" target="_blank" rel="noopener" class="glass inline-flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold hover:border-neon/50 transition-colors">Star ★</a>
+        </div>
+      </div>
+      <!-- ASK3GPP -->
+      <div class="reveal reveal-delay-1 glass card-hover rounded-2xl p-8 flex flex-col">
+        <div class="flex items-center justify-between mb-5">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyanx/30 to-cyanx/10 border border-cyanx/30 flex items-center justify-center">
+            <svg class="w-6 h-6 text-cyanx" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <span class="text-[11px] font-bold uppercase tracking-wider bg-cyanx/15 text-cyanx border border-cyanx/30 px-3 py-1 rounded-full">Live</span>
+        </div>
+        <h3 class="font-display font-semibold text-xl mb-2">ASK3GPP</h3>
+        <p class="text-sm text-slate-400 leading-relaxed flex-1">An AI-powered Q&A engine for 3GPP telecom standards. Ask natural language questions and get precise, spec-grounded answers from the vast 3GPP documentation corpus — no more manual spec hunting.</p>
+        <ul class="mt-5 space-y-2.5 text-sm text-slate-300">
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-cyanx shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>RAG over 3GPP specifications</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-cyanx shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Natural language telecom Q&A</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-cyanx shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Standards-grounded responses</li>
+        </ul>
+        <div class="mt-7 flex gap-3">
+          <a href="https://ask3gpp.com" target="_blank" rel="noopener" class="btn-glow flex-1 inline-flex items-center justify-center gap-2 text-white text-sm font-semibold px-5 py-3 rounded-full">Visit ASK3GPP.com</a>
+          <a href="https://github.com/diliprtandekar/ASK3GPP" target="_blank" rel="noopener" class="glass inline-flex items-center justify-center px-5 py-3 rounded-full text-sm font-semibold hover:border-cyanx/50 transition-colors">GitHub</a>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <a href="#" class="logo">Lumiq<span>Brain</span></a>
-      <p>© 2025 LumiqBrain.ai — Built with ❤️ for the AI & Telecom community</p>
-      <div class="footer-links">
-        <a href="https://github.com/diliprtandekar" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://ask3gpp.com" target="_blank" rel="noopener">ASK3GPP</a>
+<!-- ================= PRICING ================= -->
+<section id="pricing" class="relative py-24 sm:py-32">
+  <div class="orb w-[450px] h-[450px] bg-neon/60 top-1/4 -right-60 opacity-25"></div>
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-2xl mx-auto text-center mb-12">
+      <span class="reveal inline-block text-xs font-semibold uppercase tracking-[0.25em] text-cyanx mb-4">Pricing</span>
+      <h2 class="reveal reveal-delay-1 font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">Hosted plans, <span class="grad-text">coming soon</span></h2>
+      <p class="reveal reveal-delay-2 mt-5 text-slate-400">Every project is free and open source today. We're productizing hosted versions — here's the shape of what's coming.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-stretch">
+      <!-- Starter -->
+      <div class="reveal glass card-hover rounded-3xl p-8 flex flex-col">
+        <h3 class="font-display font-semibold text-lg">Starter</h3>
+        <p class="text-sm text-slate-400 mt-1">For hackers & side projects</p>
+        <div class="mt-6 flex items-end gap-1">
+          <span class="font-display text-4xl font-bold">Free</span>
+        </div>
+        <ul class="mt-7 space-y-3.5 text-sm text-slate-300 flex-1">
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-cyanx shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Self-host LLMOS & ASK3GPP</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-cyanx shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Full source on GitHub</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-cyanx shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Use ASK3GPP.com free</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-cyanx shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Community support</li>
+        </ul>
+        <a href="#projects" class="mt-8 block text-center glass rounded-full py-3 text-sm font-semibold hover:border-neon/50 transition-colors">Explore projects</a>
+      </div>
+
+      <!-- Pro -->
+      <div class="reveal reveal-delay-1 popular-glow glass rounded-3xl p-8 flex flex-col md:-mt-4 md:mb-4 bg-gradient-to-b from-neon/[.08] to-transparent">
+        <div class="flex items-center justify-between">
+          <h3 class="font-display font-semibold text-lg">Pro</h3>
+          <span class="text-[11px] font-bold uppercase tracking-wider bg-gradient-to-r from-neon to-cyanx text-white px-3 py-1 rounded-full shadow-[0_0_15px_rgba(124,108,255,.5)]">Coming soon</span>
+        </div>
+        <p class="text-sm text-slate-400 mt-1">For teams that want it hosted</p>
+        <div class="mt-6 flex items-end gap-1">
+          <span class="font-display text-4xl font-bold grad-text">Coming soon</span>
+        </div>
+        <ul class="mt-7 space-y-3.5 text-sm text-slate-300 flex-1">
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-neon shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Hosted LLMOS agent runtime</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-neon shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Priority ASK3GPP API access</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-neon shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Higher rate limits</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-neon shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Email support</li>
+        </ul>
+        <a href="mailto:support@lumiqbrain.ai?subject=Pro%20waitlist" class="btn-glow mt-8 block text-center rounded-full py-3 text-sm font-semibold text-white">Join the waitlist</a>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="reveal reveal-delay-2 glass card-hover rounded-3xl p-8 flex flex-col">
+        <h3 class="font-display font-semibold text-lg">Enterprise</h3>
+        <p class="text-sm text-slate-400 mt-1">For telecom operators & carriers</p>
+        <div class="mt-6 flex items-end gap-1">
+          <span class="font-display text-4xl font-bold">Coming soon</span>
+        </div>
+        <ul class="mt-7 space-y-3.5 text-sm text-slate-300 flex-1">
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-magentax shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Private VPC / on-prem deployment</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-magentax shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Custom fine-tuned models</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-magentax shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Data residency options</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 text-magentax shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Dedicated support</li>
+        </ul>
+        <a href="mailto:support@lumiqbrain.ai?subject=Enterprise%20inquiry" class="mt-8 block text-center glass rounded-full py-3 text-sm font-semibold hover:border-magentax/50 transition-colors">Talk to us</a>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script src="script.js"></script>
+<!-- ================= ROADMAP ================= -->
+<section id="roadmap" class="relative py-24 sm:py-32 bg-panel/40 border-y border-white/5 overflow-hidden">
+  <div class="orb w-[380px] h-[380px] bg-magentax/70 top-10 -left-48 opacity-25"></div>
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-2xl mx-auto text-center mb-16">
+      <span class="reveal inline-block text-xs font-semibold uppercase tracking-[0.25em] text-neon mb-4">Roadmap</span>
+      <h2 class="reveal reveal-delay-1 font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">What's <span class="grad-text">next</span></h2>
+      <p class="reveal reveal-delay-2 mt-5 text-slate-400">No customer logos to show yet — here's what we're building next instead.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <figure class="reveal glass card-hover rounded-2xl p-7">
+        <div class="w-11 h-11 rounded-full bg-gradient-to-br from-neon to-cyanx flex items-center justify-center font-display font-bold text-white mb-5">1</div>
+        <h3 class="font-display font-semibold text-lg mb-2">Hosted ASK3GPP API</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">A managed API so teams can query 3GPP specs without hosting the RAG pipeline themselves.</p>
+      </figure>
+      <figure class="reveal reveal-delay-1 glass card-hover rounded-2xl p-7">
+        <div class="w-11 h-11 rounded-full bg-gradient-to-br from-magentax to-neon flex items-center justify-center font-display font-bold text-white mb-5">2</div>
+        <h3 class="font-display font-semibold text-lg mb-2">LLMOS Agent Marketplace</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">A registry of community-built agents and tools that extend LLMOS's natural language OS layer.</p>
+      </figure>
+      <figure class="reveal reveal-delay-2 glass card-hover rounded-2xl p-7 sm:col-span-2 lg:col-span-1">
+        <div class="w-11 h-11 rounded-full bg-gradient-to-br from-cyanx to-emerald-400 flex items-center justify-center font-display font-bold text-white mb-5">3</div>
+        <h3 class="font-display font-semibold text-lg mb-2">Enterprise & On-Prem</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">Private VPC and on-prem deployment options for telecom operators with strict data residency needs.</p>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq" class="relative py-24 sm:py-32">
+  <div class="max-w-3xl mx-auto px-5 sm:px-8">
+    <div class="text-center mb-14">
+      <span class="reveal inline-block text-xs font-semibold uppercase tracking-[0.25em] text-cyanx mb-4">FAQ</span>
+      <h2 class="reveal reveal-delay-1 font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">Questions, <span class="grad-text">answered</span></h2>
+    </div>
+    <div class="space-y-4">
+      <div class="faq-item reveal glass rounded-2xl overflow-hidden">
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 px-6 py-5 text-left font-medium hover:text-neon transition-colors">
+          What is LumiqBrain?
+          <span class="faq-icon text-xl font-light shrink-0">+</span>
+        </button>
+        <div class="faq-answer px-6"><p class="pb-6 text-sm text-slate-400 leading-relaxed">LumiqBrain is an open-source initiative building AI systems at the intersection of large language models and telecom infrastructure — including LLMOS and ASK3GPP.</p></div>
+      </div>
+      <div class="faq-item reveal reveal-delay-1 glass rounded-2xl overflow-hidden">
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 px-6 py-5 text-left font-medium hover:text-neon transition-colors">
+          What is LLMOS?
+          <span class="faq-icon text-xl font-light shrink-0">+</span>
+        </button>
+        <div class="faq-answer px-6"><p class="pb-6 text-sm text-slate-400 leading-relaxed">LLMOS is an AI-native operating system layer that lets you interact with OS-level operations, automation, and intelligence using natural language, powered by an extensible agent framework.</p></div>
+      </div>
+      <div class="faq-item reveal glass rounded-2xl overflow-hidden">
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 px-6 py-5 text-left font-medium hover:text-neon transition-colors">
+          What is ASK3GPP?
+          <span class="faq-icon text-xl font-light shrink-0">+</span>
+        </button>
+        <div class="faq-answer px-6"><p class="pb-6 text-sm text-slate-400 leading-relaxed">ASK3GPP is a RAG-powered Q&A engine for 3GPP telecom standards — ask a question in plain English and get precise, spec-grounded answers instead of manually hunting through documentation.</p></div>
+      </div>
+      <div class="faq-item reveal reveal-delay-1 glass rounded-2xl overflow-hidden">
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 px-6 py-5 text-left font-medium hover:text-neon transition-colors">
+          Is LumiqBrain open source?
+          <span class="faq-icon text-xl font-light shrink-0">+</span>
+        </button>
+        <div class="faq-answer px-6"><p class="pb-6 text-sm text-slate-400 leading-relaxed">Yes. Every project is open source and available on GitHub — fork it, file issues, or send a pull request.</p></div>
+      </div>
+      <div class="faq-item reveal glass rounded-2xl overflow-hidden">
+        <button class="faq-toggle w-full flex items-center justify-between gap-4 px-6 py-5 text-left font-medium hover:text-neon transition-colors">
+          How can I get involved?
+          <span class="faq-icon text-xl font-light shrink-0">+</span>
+        </button>
+        <div class="faq-answer px-6"><p class="pb-6 text-sm text-slate-400 leading-relaxed">Check out the projects on GitHub, or email support@lumiqbrain.ai if you want to collaborate, contribute, or just talk AI & telecom.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="relative py-24 sm:py-28 overflow-hidden">
+  <div class="orb w-[500px] h-[300px] bg-neon top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40"></div>
+  <div class="relative max-w-4xl mx-auto px-5 sm:px-8 text-center">
+    <div class="reveal glass rounded-[2rem] px-6 sm:px-14 py-14 sm:py-16 border-neon/20">
+      <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">Interested in <span class="grad-text">collaborating?</span></h2>
+      <p class="mt-5 text-slate-400 max-w-xl mx-auto">Whether you want to contribute, use these tools, or just talk AI & telecom — reach out.</p>
+      <div class="mt-9 flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="https://github.com/diliprtandekar" target="_blank" rel="noopener" class="btn-glow inline-flex items-center justify-center gap-2 text-white font-semibold px-8 py-4 rounded-full">GitHub profile</a>
+        <a href="mailto:support@lumiqbrain.ai" class="glass inline-flex items-center justify-center gap-2 font-semibold px-8 py-4 rounded-full hover:border-cyanx/50 transition-colors">support@lumiqbrain.ai</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="border-t border-white/5 bg-panel/60">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-14 grid gap-10 md:grid-cols-4">
+    <div class="md:col-span-2">
+      <div class="flex items-center gap-2.5 mb-4">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-neon to-cyanx flex items-center justify-center">
+          <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <span class="font-display font-bold">Lumiq<span class="text-neon">Brain</span>.ai</span>
+      </div>
+      <p class="text-sm text-slate-500 max-w-xs leading-relaxed">Open-source AI systems bridging large language models with real-world telecom standards and infrastructure.</p>
+      <div class="flex gap-3 mt-6">
+        <a href="https://github.com/diliprtandekar" target="_blank" rel="noopener" class="w-9 h-9 glass rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:border-neon/50 transition-colors" aria-label="GitHub"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-1.97c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 015.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.2.68.8.56A11.52 11.52 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+        <a href="mailto:support@lumiqbrain.ai" class="w-9 h-9 glass rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:border-neon/50 transition-colors" aria-label="Email"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l9 6 9-6M3 6h18v12H3z"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h4 class="text-sm font-semibold mb-4">Projects</h4>
+      <ul class="space-y-3 text-sm text-slate-500">
+        <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
+        <li><a href="#projects" class="hover:text-white transition-colors">Open source projects</a></li>
+        <li><a href="#roadmap" class="hover:text-white transition-colors">Roadmap</a></li>
+        <li><a href="#pricing" class="hover:text-white transition-colors">Pricing</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="text-sm font-semibold mb-4">Connect</h4>
+      <ul class="space-y-3 text-sm text-slate-500">
+        <li><a href="https://github.com/diliprtandekar" target="_blank" rel="noopener" class="hover:text-white transition-colors">GitHub profile</a></li>
+        <li><a href="https://ask3gpp.com" target="_blank" rel="noopener" class="hover:text-white transition-colors">ASK3GPP</a></li>
+        <li><a href="mailto:support@lumiqbrain.ai" class="hover:text-white transition-colors">support@lumiqbrain.ai</a></li>
+        <li><a href="#faq" class="hover:text-white transition-colors">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/5 py-6 text-center text-xs text-slate-600">© 2026 LumiqBrain.ai — Built with ❤️ for the AI & Telecom community.</div>
+</footer>
+
+<script>
+/* ---------- Nav scroll state ---------- */
+const nav = document.getElementById('nav');
+addEventListener('scroll', () => {
+  nav.classList.toggle('nav-scrolled', scrollY > 20);
+}, { passive: true });
+
+/* ---------- Mobile menu ---------- */
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+/* ---------- Reveal on scroll ---------- */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ---------- Counters ---------- */
+const counterIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target, target = +el.dataset.target, dur = 1600, t0 = performance.now();
+    const tick = now => {
+      const p = Math.min((now - t0) / dur, 1);
+      el.textContent = Math.floor(target * (1 - Math.pow(1 - p, 3))).toLocaleString();
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+    counterIO.unobserve(el);
+  });
+}, { threshold: 0.6 });
+document.querySelectorAll('.counter').forEach(el => counterIO.observe(el));
+
+/* ---------- FAQ accordion ---------- */
+document.querySelectorAll('.faq-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+
+/* ---------- Hero particles ---------- */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, pts = [];
+function resize() {
+  W = canvas.width = canvas.offsetWidth * devicePixelRatio;
+  H = canvas.height = canvas.offsetHeight * devicePixelRatio;
+}
+resize(); addEventListener('resize', resize);
+const N = Math.min(70, Math.floor(innerWidth / 18));
+for (let i = 0; i < N; i++) pts.push({
+  x: Math.random(), y: Math.random(),
+  vx: (Math.random() - .5) * .0006, vy: (Math.random() - .5) * .0006,
+  r: Math.random() * 1.8 + .6
+});
+(function loop() {
+  ctx.clearRect(0, 0, W, H);
+  pts.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0 || p.x > 1) p.vx *= -1;
+    if (p.y < 0 || p.y > 1) p.vy *= -1;
+  });
+  ctx.strokeStyle = 'rgba(124,108,255,.12)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+    const a = pts[i], b = pts[j];
+    const dx = (a.x - b.x) * W, dy = (a.y - b.y) * H;
+    const d2 = dx * dx + dy * dy;
+    if (d2 < 26000 * devicePixelRatio) {
+      ctx.beginPath();
+      ctx.moveTo(a.x * W, a.y * H);
+      ctx.lineTo(b.x * W, b.y * H);
+      ctx.stroke();
+    }
+  }
+  pts.forEach(p => {
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(160,150,255,.6)';
+    ctx.arc(p.x * W, p.y * H, p.r * devicePixelRatio, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  requestAnimationFrame(loop);
+})();
+</script>
 </body>
 </html>
