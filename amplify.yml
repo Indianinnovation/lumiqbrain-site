@@ -8,7 +8,9 @@ frontend:
     baseDirectory: /
     files:
       - index.html
+      - terms.html
       - styles.css
       - script.js
+      - fonts/**/*
   cache:
     paths: []

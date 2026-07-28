@@ -25,9 +25,21 @@ tailwind.config = {
   }
 }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('fonts/inter-variable.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Space Grotesk';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('fonts/space-grotesk-variable.woff2') format('woff2');
+  }
   * { -webkit-tap-highlight-color: transparent; }
   html { scroll-behavior: smooth; }
   body { background: #05060f; color: #e6e8f5; overflow-x: hidden; }
@@ -685,7 +697,7 @@ tailwind.config = {
       </ul>
     </div>
   </div>
-  <div class="border-t border-white/5 py-6 text-center text-xs text-slate-600">© 2026 LumiQBrain.ai — Built with ❤️ for the AI & Telecom community.</div>
+  <div class="border-t border-white/5 py-6 text-center text-xs text-slate-600">© 2026 LumiQBrain.ai — Built with ❤️ for the AI & Telecom community. · <a href="terms.html" class="hover:text-slate-400 transition-colors">Terms & Conditions</a></div>
 </footer>
 
 <script>
