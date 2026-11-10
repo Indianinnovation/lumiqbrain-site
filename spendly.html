@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spendly — LumiQBrain.ai</title>
+<meta name="description" content="Spendly: a personal expense tracker on Flask and SQLite with spending analytics, a debt payoff planner, and a multi-agent Claude Trend Analyst." />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Space Grotesk', 'sans-serif']
+      },
+      colors: {
+        night: '#05060f',
+        panel: '#0b0d1d',
+        neon: '#7c6cff',
+        cyanx: '#22d3ee',
+        magentax: '#e879f9'
+      }
+    }
+  }
+}
+</script>
+<style>
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('fonts/inter-variable.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Space Grotesk';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('fonts/space-grotesk-variable.woff2') format('woff2');
+  }
+  body { background: #05060f; color: #e6e8f5; }
+  .glass {
+    background: linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+    border: 1px solid rgba(255,255,255,.08);
+    backdrop-filter: blur(12px);
+  }
+  .btn-glow {
+    background: linear-gradient(135deg, #7c6cff, #22d3ee);
+    box-shadow: 0 0 24px rgba(124,108,255,.35);
+  }
+</style>
+</head>
+<body class="font-sans antialiased">
+
+<nav class="border-b border-white/5">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-neon to-cyanx flex items-center justify-center">
+        <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <span class="font-display font-bold">LumiQ<span class="text-neon">Brain</span>.ai</span>
+    </a>
+    <a href="index.html#more-projects" class="text-sm text-slate-400 hover:text-white transition-colors">← Back to the lab</a>
+  </div>
+</nav>
+
+<main class="max-w-5xl mx-auto px-5 sm:px-8 py-16">
+  <!-- Hero -->
+  <span class="text-[11px] font-bold uppercase tracking-wider bg-rose-400/15 text-rose-400 border border-rose-400/30 px-3 py-1 rounded-full">Flask App · Private · By request</span>
+  <h1 class="font-display text-4xl sm:text-5xl font-bold tracking-tight mt-5">Spendly</h1>
+  <p class="mt-2 text-lg text-slate-300">Track every rupee. Plan every payoff.</p>
+  <p class="mt-5 max-w-3xl text-slate-400 leading-relaxed">A lightweight personal finance app built on Flask and SQLite. Log expenses and see where the money goes, plan your way out of debt with snowball or avalanche strategies, and get an educational long-term outlook on any US stock from a multi-agent Claude pipeline.</p>
+  <div class="mt-8 flex flex-wrap gap-3">
+    <a href="mailto:support@lumiqbrain.ai?subject=Spendly%20access%20request" class="btn-glow text-white text-sm font-semibold px-6 py-3 rounded-full">Request access</a>
+  </div>
+
+  <figure class="mt-12 glass rounded-2xl p-2 sm:p-3">
+    <img src="images/spendly/landing.jpg" alt="Spendly landing page: Track every rupee. Know where it goes." class="rounded-xl w-full" width="1600" height="1000" />
+  </figure>
+
+  <!-- Features -->
+  <section class="mt-24 space-y-24">
+    <div class="grid lg:grid-cols-5 gap-8 items-center">
+      <div class="lg:col-span-2">
+        <h2 class="font-display text-2xl font-bold tracking-tight">Expenses &amp; profile</h2>
+        <p class="mt-3 text-sm text-slate-400 leading-relaxed">Add, edit and delete expenses by category and date. The profile page totals your spending, shows the top category and a per-category breakdown, filtered by any date range.</p>
+      </div>
+      <figure class="lg:col-span-3 glass rounded-2xl p-2">
+        <img src="images/spendly/profile.jpg" alt="Spendly profile page with total spent, recent transactions and spending by category" class="rounded-xl w-full" width="1600" height="1000" loading="lazy" />
+      </figure>
+    </div>
+
+    <div class="grid lg:grid-cols-5 gap-8 items-center">
+      <div class="lg:col-span-2 lg:order-2">
+        <h2 class="font-display text-2xl font-bold tracking-tight">Analytics</h2>
+        <p class="mt-3 text-sm text-slate-400 leading-relaxed">Stat tiles for total spent, average per expense and per month, a monthly trend, and your five largest expenses — for all time or any window.</p>
+      </div>
+      <figure class="lg:col-span-3 lg:order-1 glass rounded-2xl p-2">
+        <img src="images/spendly/analytics.jpg" alt="Spendly analytics page with stat tiles, monthly trend and largest expenses" class="rounded-xl w-full" width="1600" height="1000" loading="lazy" />
+      </figure>
+    </div>
+
+    <div class="grid lg:grid-cols-5 gap-8 items-center">
+      <div class="lg:col-span-2">
+        <h2 class="font-display text-2xl font-bold tracking-tight">Debt payoff planner</h2>
+        <p class="mt-3 text-sm text-slate-400 leading-relaxed">Track each debt's balance, APR and minimum payment. Compare snowball, avalanche and custom orders with an extra monthly payment, and see your debt-free date, total interest and interest saved. Log payments to watch each balance fall.</p>
+      </div>
+      <figure class="lg:col-span-3 glass rounded-2xl p-2">
+        <img src="images/spendly/debts.jpg" alt="Spendly debt planner with debt-free date, total interest and balance-over-time chart" class="rounded-xl w-full" width="1600" height="1000" loading="lazy" />
+      </figure>
+    </div>
+
+    <div class="grid lg:grid-cols-5 gap-8 items-center">
+      <div class="lg:col-span-2 lg:order-2">
+        <h2 class="font-display text-2xl font-bold tracking-tight">Trend Analyst</h2>
+        <p class="mt-3 text-sm text-slate-400 leading-relaxed">Enter a US ticker and a multi-agent Claude pipeline reads prices, SEC filings and news, then writes a plain-English long-term outlook with confidence, key indicators and 1- and 2-year ranges. Educational only — it never tells you to trade.</p>
+      </div>
+      <figure class="lg:col-span-3 lg:order-1 glass rounded-2xl p-2">
+        <img src="images/spendly/trend-report.jpg" alt="Spendly Trend Analyst report for Apple with a neutral long-term outlook and price indicators" class="rounded-xl w-full" width="1600" height="1000" loading="lazy" />
+      </figure>
+    </div>
+  </section>
+
+  <!-- Stack -->
+  <section class="mt-24 glass rounded-2xl p-6 sm:p-8">
+    <h2 class="font-display text-xl font-bold tracking-tight">Built with</h2>
+    <div class="mt-4 flex flex-wrap gap-2 text-xs text-slate-300">
+      <span class="border border-white/10 rounded-full px-3 py-1">Python</span>
+      <span class="border border-white/10 rounded-full px-3 py-1">Flask</span>
+      <span class="border border-white/10 rounded-full px-3 py-1">SQLite</span>
+      <span class="border border-white/10 rounded-full px-3 py-1">Jinja2</span>
+      <span class="border border-white/10 rounded-full px-3 py-1">Vanilla JS</span>
+      <span class="border border-white/10 rounded-full px-3 py-1">Anthropic Claude</span>
+      <span class="border border-white/10 rounded-full px-3 py-1">pytest</span>
+    </div>
+    <p class="mt-5 text-sm text-slate-400 leading-relaxed">No ORM and no front-end framework — raw parameterized SQL, server-rendered pages and hand-drawn SVG charts. Built with Claude Code.</p>
+  </section>
+</main>
+
+<footer class="border-t border-white/5 py-6 text-center text-xs text-slate-600">© 2026 LumiQBrain.ai · <a href="terms.html" class="text-cyanx hover:text-neon transition-colors underline underline-offset-2">Terms & Conditions</a></footer>
+
+</body>
+</html>

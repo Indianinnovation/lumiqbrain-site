@@ -9,8 +9,10 @@ frontend:
     files:
       - index.html
       - terms.html
+      - spendly.html
       - styles.css
       - script.js
       - fonts/**/*
+      - images/**/*
   cache:
     paths: []
