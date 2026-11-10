@@ -10,8 +10,11 @@ frontend:
       - index.html
       - terms.html
       - spendly.html
-      - styles.css
-      - script.js
+      - tailwind.css
+      - favicon.svg
+      - og.png
+      - robots.txt
+      - sitemap.xml
       - fonts/**/*
       - images/**/*
   cache:
